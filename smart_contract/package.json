@@ -1,27 +1,17 @@
 {
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.7",
-    "@nomicfoundation/hardhat-ethers": "^3.0.8",
-    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.5",
-    "@nomicfoundation/hardhat-network-helpers": "^1.0.3",
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@nomicfoundation/hardhat-verify": "^2.0.10",
-    "@nomiclabs/hardhat-waffle": "^1.0.0",
-    "@typechain/ethers-v6": "^0.5.1",
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@typechain/hardhat": "^6.0.0",
     "@types/chai": "^4.3.19",
     "@types/mocha": "^10.0.8",
-    "chai": "^5.1.1",
-    "ethereum-waffle": "^2.2.0",
-    "hardhat": "^2.22.10",
+    "chai": "^4.5.0",
+    "hardhat": "^2.11.2",
     "hardhat-gas-reporter": "^1.0.10",
-    "solidity-coverage": "^0.8.13",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "solidity-coverage": "^0.7.22"
   },
   "dependencies": {
-    "@nomiclabs/hardhat-ethers": "^1.0.0",
-    "ethers": "^6.13.2",
+    "ethers": "^5.7.2",
     "viem": "^2.21.8"
   }
 }
