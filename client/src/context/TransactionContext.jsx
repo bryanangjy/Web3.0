@@ -66,7 +66,8 @@ export const TransactionProvider = ({ children }) => {
         try {
             if(!ethereum) return alert("Please install metamask");
 
-            // get the data from the form...
+            const { addressTo, amount, keyword, message } = formData;
+            getEthereumContract();
         } catch (error) {
             console.log(error);
 
@@ -79,7 +80,7 @@ export const TransactionProvider = ({ children }) => {
     }, []);
 
     return (
-        <TransactionContext.Provider value={{ connectWallet, currentAccount }}>
+        <TransactionContext.Provider value={{ connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction }}>
             {children}
         </TransactionContext.Provider>
     )
