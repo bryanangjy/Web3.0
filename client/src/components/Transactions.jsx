@@ -3,6 +3,27 @@ import React, { useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 
 import dummyData from '../data/dummyData';
+import { shortenAddress } from '../utils/shortenAddress';
+
+const TransactionCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url }) => {
+    return (
+        <div className="bg-[#181918] m-4 flex flex-1
+            2x1:min-w-[450px]
+            2x1:max-w-[500px]
+            sm:min-w-[270px]
+            sm:max-w-[300px]
+            flex-col p-3 rounded-md hover:shadow-2xl
+        ">
+            <div className="flex flex-col items-center w-full mt-3">
+                <div className="display-flex justify-start w-full mb-6 p-2">
+                    <a href="https://ropsten.etherscan.io/address/${addressFrom}" target="_blank" rel="noopener noreferrer">
+                        <p className="text-white text-base">From: {shortenAddress(addressFrom)}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 const Transactions = () => {
     const { currentAccount } = useContext(TransactionContext);
@@ -15,6 +36,12 @@ const Transactions = () => {
                 ) : (
                     <h3 className="text-white text-3xl text-center my-2">Connect your account to see the latest transactions</h3>
                 )}
+
+                <div className="flex flex-wrap justify-center items-center mt-10">
+                    {dummyData.reverse().map((transaction, i) => (
+                        <TransactionCard key={i} {...transaction} />
+                    ))}
+                </div>
             </div>
         </div>
     );
