@@ -22,7 +22,7 @@ export const TransactionProvider = ({ children }) => {
     const [transactionCount, setTransactionCount] = useState(localStorage.getItem('transactionCount'));
 
     const handleChange = (e, name) => {
-        setFormDate((prevState) => ({ ...prevState, [name]: e.target.value }));
+        setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
     }
 
     const checkIfWalletIsConnected = async () => {
