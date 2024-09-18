@@ -35,24 +35,25 @@ export const TransactionProvider = ({ children }) => {
         try {
             if (!window.ethereum) return alert("Please install MetaMask");
             const transactionContract = getEthereumContract();
-
+    
             if (transactionContract) {
                 const availableTransactions = await transactionContract.getAllTransactions();
-
+    
                 const structuredTransactions = availableTransactions.map((transaction) => ({
                     addressTo: transaction.receiver,
                     addressFrom: transaction.sender,
                     timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
                     message: transaction.message,
                     amount: parseInt(transaction.amount._hex) / (10 ** 18),
+                    transactionHash: transaction.transactionHash,
                 }));
-
+    
                 setTransactions(structuredTransactions);
             }
         } catch (error) {
             console.log("Error fetching transactions:", error);
         }
-    };
+    };    
 
     const checkIfWalletIsConnected = async () => {
         try {
@@ -98,13 +99,13 @@ export const TransactionProvider = ({ children }) => {
     const sendTransaction = async () => {
         try {
             if (!window.ethereum) return alert("Please install MetaMask");
-
+    
             const { addressTo, amount, keyword, message } = formData;
             const transactionContract = getEthereumContract();
             if (!transactionContract) return;
-
+    
             const parsedAmount = ethers.utils.parseEther(amount);
-
+    
             // Initiate the transaction
             await window.ethereum.request({
                 method: 'eth_sendTransaction',
@@ -114,34 +115,45 @@ export const TransactionProvider = ({ children }) => {
                     gas: '0x100000', // Higher gas limit
                     value: parsedAmount._hex,
                 }],
-            });                     
-
+            });
+    
             // Call the smart contract function to log the transaction
             const transactionHash = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
-
+    
             setIsLoading(true);
             console.log(`Loading - ${transactionHash.hash}`);
             await transactionHash.wait(); // Wait for the transaction to be mined
             setIsLoading(false);
             console.log(`Success - ${transactionHash.hash}`);
-
+    
             const transactionCount = await transactionContract.getTransactionCount();
             setTransactionCount(transactionCount.toNumber());
-
-            window.location.reload(); // Reload the page
+    
+            // Fetch the latest transactions and update the state
+            const newTransactions = await transactionContract.getAllTransactions();
+            const structuredTransactions = newTransactions.map((transaction) => ({
+                addressTo: transaction.receiver,
+                addressFrom: transaction.sender,
+                timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
+                message: transaction.message,
+                amount: parseInt(transaction.amount._hex) / (10 ** 18),
+                transactionHash: transaction.transactionHash,
+            }));
+            setTransactions(structuredTransactions);
+    
         } catch (error) {
             console.error("Transaction failed:", error);
             if (error.code === 'UNPREDICTABLE_GAS_LIMIT') {
                 console.error("Gas estimation failed. Manual gas limit may be required.");
             }
         }
-    };
-
+    };    
+    
     useEffect(() => {
         checkIfWalletIsConnected();
         checkIfTransactionsExist();
     }, []);
-
+    
     return (
         <TransactionContext.Provider
             value={{
@@ -158,4 +170,4 @@ export const TransactionProvider = ({ children }) => {
             {children}
         </TransactionContext.Provider>
     );
-};
+};    

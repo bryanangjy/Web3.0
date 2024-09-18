@@ -6,7 +6,7 @@ import dummyData from '../utils/dummyData';
 import { shortenAddress } from '../utils/shortenAddress';
 import useFetch from '../hooks/useFetch';
 
-const TransactionCard = ({ addressTo, addressFrom, timestamp, message, amount, url }) => {
+const TransactionCard = ({ addressTo, addressFrom, timestamp, message, amount, url, transactionHash }) => {
     // No need to use keyword here
     return (
         <div className="bg-[#181918] m-4 flex flex-1
@@ -18,10 +18,10 @@ const TransactionCard = ({ addressTo, addressFrom, timestamp, message, amount, u
         ">
             <div className="flex flex-col items-center w-full mt-3">
                 <div className="w-full mb-6 p-2">
-                    <a href={`https://ropsten.etherscan.io/address/${addressFrom}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://cardona-zkevm.polygonscan.com/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
                         <p className="text-white text-base">From: {shortenAddress(addressFrom)}</p>
                     </a>
-                    <a href={`https://ropsten.etherscan.io/address/${addressTo}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://cardona-zkevm.polygonscan.com/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
                         <p className="text-white text-base">To: {shortenAddress(addressTo)}</p>
                     </a>
                     <p className="text-white text-base">Amount: {amount}</p>
@@ -66,6 +66,7 @@ const Transactions = () => {
                             message={transaction.message}
                             amount={transaction.amount}
                             url={transaction.url}
+                            transactionHash={transaction.transactionHash}
                         />
                     ))}
                 </div>
