@@ -43,14 +43,14 @@ const Welcome = () => {
                     <p className="text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base">
                         Explore the cryptoworld. Buy and sell cryptocurrencies easily on Krypto. 
                     </p>
-                    {currentAccount && (
+                    {!currentAccount && (
                         <button
-                        type="button"
-                        onClick={connectWallet}  
-                        className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"  
+                            type="button"
+                            onClick={connectWallet}  
+                            className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"  
                         >
-                        <p className="text-white text-base font-semibold">Connect Wallet</p>
-                    </button>
+                            <p className="text-white text-base font-semibold">Connect Wallet</p>
+                        </button>
                     )}
 
                     <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
@@ -95,7 +95,7 @@ const Welcome = () => {
                         <Input placeholder="Address To" name="addressTo" type="text" handleChange={handleChange} />
                         <Input placeholder="Amount (ETH)" name="amount" type="number" handleChange={handleChange} />
                         <Input placeholder="keyword (Gif)" name="keyword" type="text" handleChange={handleChange} />
-                        <Input placeholder="Enter MEssage" name="message" type="text" handleChange={handleChange} />
+                        <Input placeholder="Enter Message" name="message" type="text" handleChange={handleChange} />
                     
                         <div className="h-[1px] w-full bg-gray-400 my-2" />
                     
