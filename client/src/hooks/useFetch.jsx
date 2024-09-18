@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { JsonRpcProvider } from "ethers"; // Import ethers.js
+import { ethers } from "ethers"; // Import ethers.js properly
 
 const API_KEY = import.meta.env.VITE_GIPHY_API;
 const ETH_RPC_URL = "https://polygonzkevm-cardona.g.alchemy.com/v2/Yc7IP8a_JBNItO1C-Sfsj5Q6OQcxDQJ2"; // Your Ethereum RPC URL
@@ -26,7 +26,7 @@ const useFetch = (keyword) => {
 
   // Fetch Ethereum block data
   const fetchBlock = async () => {
-    const provider = new JsonRpcProvider(ETH_RPC_URL); // Connect to Ethereum network
+    const provider = new ethers.JsonRpcProvider(ETH_RPC_URL); // Correctly instantiate JsonRpcProvider
     try {
       const blockData = await provider.getBlock("latest"); // Fetch latest block
       setBlock(blockData); // Set block data

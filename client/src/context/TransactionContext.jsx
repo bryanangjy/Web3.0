@@ -3,6 +3,9 @@ import { ethers } from 'ethers';
 
 import { contractABI, contractAddress } from '../utils/constants';
 
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
+
 export const TransactionContext = React.createContext();
 
 const getEthereumContract = () => {
@@ -54,19 +57,20 @@ export const TransactionProvider = ({ children }) => {
     const checkIfWalletIsConnected = async () => {
         try {
             if (!window.ethereum) return alert("Please install MetaMask");
-
+    
             const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-
+    
             if (accounts.length) {
                 setCurrentAccount(accounts[0]);
                 getALLTransactions();
             } else {
-                console.log("No accounts found.");
+                console.log("No accounts found. Requesting connection...");
+                connectWallet(); // Prompt to connect MetaMask if no accounts found
             }
         } catch (error) {
-            console.log("Error checking if wallet is connected:", error);
+            console.error("Error checking if wallet is connected:", error);
         }
-    };
+    };    
 
     const checkIfTransactionsExist = async () => {
         try {
@@ -83,13 +87,13 @@ export const TransactionProvider = ({ children }) => {
     const connectWallet = async () => {
         try {
             if (!window.ethereum) return alert("Please install MetaMask");
-
+    
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             setCurrentAccount(accounts[0]);
         } catch (error) {
-            console.log("Error connecting wallet:", error);
+            console.error("Error connecting wallet:", error);
         }
-    };
+    };    
 
     const sendTransaction = async () => {
         try {
@@ -107,10 +111,10 @@ export const TransactionProvider = ({ children }) => {
                 params: [{
                     from: currentAccount,
                     to: addressTo,
-                    gas: '0x5208', // 21000 GWEI
+                    gas: '0x100000', // Higher gas limit
                     value: parsedAmount._hex,
                 }],
-            });
+            });                     
 
             // Call the smart contract function to log the transaction
             const transactionHash = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
@@ -126,7 +130,10 @@ export const TransactionProvider = ({ children }) => {
 
             window.location.reload(); // Reload the page
         } catch (error) {
-            console.log("Error sending transaction:", error);
+            console.error("Transaction failed:", error);
+            if (error.code === 'UNPREDICTABLE_GAS_LIMIT') {
+                console.error("Gas estimation failed. Manual gas limit may be required.");
+            }
         }
     };
 
