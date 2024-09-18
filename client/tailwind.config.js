@@ -8,6 +8,9 @@ module.exports = {
       body: ["Open Sans", "sans-serif"],
     },
     extend: {
+      backgroundImage: {
+        'custom-gradient': 'radial-gradient(at 0% 0%, hsla(253,16%,7%,1), transparent 50%)',
+      },
       screens: {
         mf: "990px",
       },
