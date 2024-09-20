@@ -46,7 +46,7 @@ export const TransactionProvider = ({ children }) => {
                     message: transaction.message,
                     amount: parseInt(transaction.amount._hex) / (10 ** 18),
                     keyword: transaction.keyword,
-                    transactionHash: transaction.transactionHash,
+                    transactionHash: transaction.transactionHash
                 }));
     
                 setTransactions(structuredTransactions);
