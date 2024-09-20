@@ -65,6 +65,7 @@ const Transactions = () => {
                             timestamp={transaction.timestamp}
                             message={transaction.message}
                             amount={transaction.amount}
+                            keyword={transaction.keyword}
                             url={transaction.url}
                             transactionHash={transaction.transactionHash}
                         />

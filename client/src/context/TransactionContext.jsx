@@ -45,6 +45,7 @@ export const TransactionProvider = ({ children }) => {
                     timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
                     message: transaction.message,
                     amount: parseInt(transaction.amount._hex) / (10 ** 18),
+                    keyword: transaction.keyword,
                     transactionHash: transaction.transactionHash,
                 }));
     
@@ -137,6 +138,7 @@ export const TransactionProvider = ({ children }) => {
                 timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
                 message: transaction.message,
                 amount: parseInt(transaction.amount._hex) / (10 ** 18),
+                keyword: transaction.keyword,
                 transactionHash: transaction.transactionHash,
             }));
             setTransactions(structuredTransactions);
